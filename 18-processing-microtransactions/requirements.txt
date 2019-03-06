@@ -15,6 +15,16 @@ Click==6.4
 # Data and workers.
 psycopg2==2.6.1
 Flask-SQLAlchemy==2.1
+
+# Hello. This is Nick from the future (March 2019 to be exact). An emergency
+# addition had to be made below to fix an issue that resulted in SQLAlchemy
+# throwing an error. Flask-SQLAlchemy 2.1 doesn't version lock SQLAlchemy and
+# SQLAlchemy 1.3.x introduced breaking changes.
+#
+# The line below isn't covered on video, but it locks SQLAlchemy to 1.2.0. A
+# future update video will cover upgrading SQLAlchemy to 1.3.0 and more.
+SQLAlchemy==1.2.0
+
 redis==2.10.5
 celery==3.1.23
 
