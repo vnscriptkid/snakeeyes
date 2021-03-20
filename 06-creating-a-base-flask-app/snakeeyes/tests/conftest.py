@@ -33,3 +33,6 @@ def client(app):
     :return: Flask app client
     """
     yield app.test_client()
+
+# docker-compose exec website pytest snakeeyes/tests
+# docker-compose exec website pytest --cov-report term-missing --cov snakeeyes
