@@ -2,6 +2,8 @@ from celery import Celery
 from flask import Flask
 from itsdangerous.url_safe import URLSafeTimedSerializer
 
+from werkzeug.contrib.fixers import ProxyFix
+
 from snakeeyes.blueprints.admin import admin
 from snakeeyes.blueprints.contact import contact
 from snakeeyes.blueprints.page import page
@@ -55,6 +57,7 @@ def create_app(settings_override=None):
 
     app.logger.setLevel(app.config['LOG_LEVEL'])
 
+    middleware(app)
     app.register_blueprint(admin)
     app.register_blueprint(page)
     app.register_blueprint(contact)
@@ -104,3 +107,15 @@ def authentication(app, user_model):
         user_uid = data[0]
 
         return user_model.query.get(user_uid)
+
+
+def middleware(app):
+    """
+    Register 0 or more middleware (mutates the app passed in).
+    :param app: Flask application instance
+    :return: None
+    """
+    # Swap request.remote_addr with the real IP address even if behind a proxy.
+    app.wsgi_app = ProxyFix(app.wsgi_app)
+
+    return None
