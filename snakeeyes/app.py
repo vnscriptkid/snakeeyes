@@ -53,6 +53,8 @@ def create_app(settings_override=None):
     if settings_override:
         app.config.update(settings_override)
 
+    app.logger.setLevel(app.config['LOG_LEVEL'])
+
     app.register_blueprint(admin)
     app.register_blueprint(page)
     app.register_blueprint(contact)
