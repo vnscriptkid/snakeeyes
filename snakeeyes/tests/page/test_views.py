@@ -1,5 +1,7 @@
 from flask import url_for
 
+from lib.tests import ViewTestMixin, assert_status_with_message
+
 
 class TestPage(object):
     def test_home_page(self, client):
@@ -16,3 +18,9 @@ class TestPage(object):
         """ Privacy page should respond with a success 200. """
         response = client.get(url_for('page.privacy'))
         assert response.status_code == 200
+
+    def test_404_page(self, client):
+        """ 404 errors should show the custom 404 page. """
+        response = client.get('/nochancethispagewilleverexistintheapp')
+
+        assert_status_with_message(404, response, 'Error 404')
