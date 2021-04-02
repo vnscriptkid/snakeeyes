@@ -8,6 +8,9 @@ from sqlalchemy import or_
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer, URLSafeTimedSerializer
 from werkzeug.security import check_password_hash, generate_password_hash
+from snakeeyes.blueprints.billing.models.subscription import Subscription
+from snakeeyes.blueprints.billing.models.credit_card import CreditCard
+from snakeeyes.blueprints.billing.models.invoice import Invoice
 
 from lib.util_sqlalchemy import AwareDateTime, ResourceMixin
 from snakeeyes.extensions import db
@@ -23,6 +26,13 @@ class User(UserMixin, ResourceMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    # Relationships.
+    credit_card = db.relationship(CreditCard, uselist=False, backref='users',
+                                  passive_deletes=True)
+    subscription = db.relationship(Subscription, uselist=False,
+                                   backref='users', passive_deletes=True)
+    invoices = db.relationship(Invoice, backref='users', passive_deletes=True)
+
     # Authentication.
     role = db.Column(db.Enum(*ROLE, name='role_types', native_enum=False),
                      index=True, nullable=False, server_default='member')
@@ -32,6 +42,11 @@ class User(UserMixin, ResourceMixin, db.Model):
     email = db.Column(db.String(255), unique=True, index=True, nullable=False,
                       server_default='')
     password = db.Column(db.String(128), nullable=False, server_default='')
+
+    # Billing.
+    name = db.Column(db.String(128), index=True)
+    payment_id = db.Column(db.String(128), index=True)
+    cancelled_subscription_on = db.Column(AwareDateTime())
 
     # Activity tracking.
     sign_in_count = db.Column(db.Integer, nullable=False, default=0)
@@ -145,6 +160,37 @@ class User(UserMixin, ResourceMixin, db.Model):
                         User.username.ilike(search_query))
 
         return or_(*search_chain)
+
+    @classmethod
+    def bulk_delete(cls, ids):
+        """
+        Override the general bulk_delete method because we need to delete them
+        one at a time while also deleting them on Stripe.
+        :param ids: List of ids to be deleted
+        :type ids: list
+        :return: int
+        """
+        delete_count = 0
+
+        for id in ids:
+            user = User.query.get(id)
+
+            if user is None:
+                continue
+
+            if user.payment_id is None:
+                user.delete()
+            else:
+                subscription = Subscription()
+                cancelled = subscription.cancel(user=user)
+
+                # If successful, delete it locally.
+                if cancelled:
+                    user.delete()
+
+            delete_count += 1
+
+        return delete_count
 
     def authenticated(self, with_password=True, password=''):
         """
