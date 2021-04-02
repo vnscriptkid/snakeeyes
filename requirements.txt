@@ -32,3 +32,6 @@ Flask-Login==0.3.1
 
 # Utils.
 fake-factory==0.5.7
+
+# Payments.
+stripe==1.32.0
