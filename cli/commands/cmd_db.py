@@ -75,3 +75,5 @@ def reset(ctx, with_testdb):
 cli.add_command(init)
 cli.add_command(seed)
 cli.add_command(reset)
+
+# docker-compose exec website snakeeyes db
