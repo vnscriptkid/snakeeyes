@@ -60,3 +60,12 @@ class TestUsers(ViewTestMixin):
 
         new_count = User.query.count()
         assert old_count == new_count
+
+
+class TestInvoices(ViewTestMixin):
+    def test_index_page(self):
+        """ Index renders successfully. """
+        self.login()
+        response = self.client.get(url_for('admin.invoices'))
+
+        assert response.status_code == 200
