@@ -1,0 +1,111 @@
+# Kalaallisut translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-04-05 16:36+0000\n"
+"PO-Revision-Date: 2021-04-05 16:37+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: kl\n"
+"Language-Team: kl <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: snakeeyes/blueprints/billing/forms.py:24
+#: snakeeyes/blueprints/billing/forms.py:44
+msgid "Stripe publishable key"
+msgstr ""
+
+#: snakeeyes/blueprints/billing/forms.py:26
+msgid "Plan"
+msgstr "Nab"
+
+#: snakeeyes/blueprints/billing/forms.py:28
+#: snakeeyes/blueprints/billing/forms.py:35
+#: snakeeyes/blueprints/billing/forms.py:49
+msgid "Do you have a coupon code?"
+msgstr "Coupon ngoq DaHutlh'a'?"
+
+#: snakeeyes/blueprints/billing/forms.py:30
+#: snakeeyes/blueprints/billing/forms.py:51
+msgid "Name on card"
+msgstr "Chaw' 'oH pong"
+
+#: snakeeyes/blueprints/billing/forms.py:46
+msgid "How many coins do you want?"
+msgstr "Coins 'ar DaneH?"
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:8
+msgid "Enter payment information"
+msgstr "Payment De' 'el"
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:10
+msgid "Process payment"
+msgstr "MIw payment"
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:12
+msgid "Update payment information"
+msgstr "Payment De' update"
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:14
+msgid "Update payment method"
+msgstr ""
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:25
+msgid "subscription"
+msgstr ""
+
+#: snakeeyes/blueprints/billing/templates/billing/payment_method.html:27
+msgid "This plan costs"
+msgstr "Nab costs"
+
+#: snakeeyes/blueprints/billing/views/billing.py:59
+msgid "You already have an active subscription."
+msgstr "Subscription pov chonayta' Daghaj."
+
+#: snakeeyes/blueprints/billing/views/billing.py:67
+msgid "Sorry, that plan did not exist."
+msgstr "jIQoS, wej nIv'e' nab."
+
+#: snakeeyes/blueprints/billing/views/billing.py:82
+msgid "Awesome, thanks for subscribing!"
+msgstr "Subscribing awesome, ghIlDeSten!"
+
+#: snakeeyes/blueprints/billing/views/billing.py:84
+#: snakeeyes/blueprints/billing/views/billing.py:178
+#: snakeeyes/blueprints/billing/views/billing.py:235
+msgid "You must enable JavaScript for this request."
+msgstr "JavaScript ghob'e' enable SoH request."
+
+#: snakeeyes/blueprints/billing/views/billing.py:118
+msgid "Your subscription has been updated."
+msgstr ""
+
+#: snakeeyes/blueprints/billing/views/billing.py:132
+msgid "You do not have an active subscription."
+msgstr ""
+
+#: snakeeyes/blueprints/billing/views/billing.py:142
+msgid "Sorry to see you go, your subscription has been cancelled."
+msgstr ""
+
+#: snakeeyes/blueprints/billing/views/billing.py:154
+msgid "You do not have a payment method on file."
+msgstr ""
+
+#: snakeeyes/blueprints/billing/views/billing.py:176
+msgid "Your payment method has been updated."
+msgstr ""
+
+#: snakeeyes/blueprints/billing/views/billing.py:232
+#, python-format
+msgid "%(amount)s coins have been added to your account."
+msgstr ""
+

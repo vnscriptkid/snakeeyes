@@ -30,6 +30,7 @@ flask-debugtoolbar==0.10.0
 Flask-Mail==0.9.1
 Flask-Login==0.3.1
 Flask-Limiter==1.4
+Flask-Babel==0.9
 
 # Utils.
 fake-factory==0.5.7

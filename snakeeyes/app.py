@@ -1,28 +1,24 @@
 import logging
-
-import stripe
-
-from celery import Celery
-from flask import Flask, render_template
-from itsdangerous.url_safe import URLSafeTimedSerializer
-
-from werkzeug.contrib.fixers import ProxyFix
 from logging.handlers import SMTPHandler
 
+from celery import Celery
+from flask import Flask, render_template, request
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from flask_login import current_user
+from werkzeug.contrib.fixers import ProxyFix
+
+import stripe
 from snakeeyes.blueprints.admin import admin
+from snakeeyes.blueprints.bet import bet
+from snakeeyes.blueprints.billing import billing, stripe_webhook
+from snakeeyes.blueprints.billing.template_processors import (current_year,
+                                                              format_currency)
 from snakeeyes.blueprints.contact import contact
 from snakeeyes.blueprints.page import page
 from snakeeyes.blueprints.user import user
 from snakeeyes.blueprints.user.models import User
-from snakeeyes.blueprints.bet import bet
-from snakeeyes.extensions import csrf, db, debug_toolbar, login_manager, mail, limiter
-from snakeeyes.blueprints.billing import billing
-from snakeeyes.blueprints.billing import stripe_webhook
-
-from snakeeyes.blueprints.billing.template_processors import (
-    format_currency,
-    current_year
-)
+from snakeeyes.extensions import (babel, csrf, db, debug_toolbar, limiter,
+                                  login_manager, mail)
 
 CELERY_TASK_LIST = [
     'snakeeyes.blueprints.contact.tasks',
@@ -89,8 +85,24 @@ def create_app(settings_override=None):
     template_processors(app)
     extensions(app)
     authentication(app, User)
+    locale(app)
 
     return app
+
+
+def locale(app):
+    """
+    Initialize a locale for the current request.
+    :param app: Flask application instance
+    :return: str
+    """
+    @babel.localeselector
+    def get_locale():
+        if current_user.is_authenticated:
+            return current_user.locale
+
+        accept_languages = app.config.get('LANGUAGES').keys()
+        return request.accept_languages.best_match(accept_languages)
 
 
 def extensions(app):
@@ -105,6 +117,7 @@ def extensions(app):
     login_manager.init_app(app)
     db.init_app(app)
     limiter.init_app(app)
+    babel.init_app(app)
 
     return None
 

@@ -5,7 +5,7 @@ from lib.safe_next_url import safe_next_url
 from snakeeyes.blueprints.user.decorators import anonymous_required
 from snakeeyes.blueprints.user.forms import (
     BeginPasswordResetForm, LoginForm, PasswordResetForm, SignupForm,
-    UpdateCredentials, WelcomeForm)
+    UpdateCredentials, WelcomeForm, UpdateLocaleForm)
 from snakeeyes.blueprints.user.models import User
 
 user = Blueprint('user', __name__, template_folder='templates')
@@ -152,3 +152,18 @@ def update_credentials():
         return redirect(url_for('user.settings'))
 
     return render_template('user/update_credentials.html', form=form)
+
+
+@user.route('/settings/update_locale', methods=['GET', 'POST'])
+@login_required
+def update_locale():
+    form = UpdateLocaleForm(locale=current_user.locale)
+
+    if form.validate_on_submit():
+        form.populate_obj(current_user)
+        current_user.save()
+
+        flash('Your locale settings have been updated.', 'success')
+        return redirect(url_for('user.settings'))
+
+    return render_template('user/update_locale.html', form=form)

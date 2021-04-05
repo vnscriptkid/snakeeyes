@@ -4,6 +4,7 @@ import pytz
 
 from config import settings
 from lib.util_sqlalchemy import ResourceMixin
+from snakeeyes.blueprints.bet.models.coin import add_subscription_coins
 from snakeeyes.blueprints.billing.gateways.stripecom import Card as PaymentCard
 from snakeeyes.blueprints.billing.gateways.stripecom import \
     Subscription as PaymentSubscription

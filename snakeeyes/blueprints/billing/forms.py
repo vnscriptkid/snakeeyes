@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext as _
 from flask_wtf import Form
 from wtforms import StringField, HiddenField, SelectField
 from wtforms.validators import DataRequired, Optional, Length
@@ -19,19 +20,19 @@ def choices_from_coin_bundles():
     return choices
 
 
-class CreditCardForm(Form):
-    stripe_key = HiddenField('Stripe publishable key',
+class SubscriptionForm(Form):
+    stripe_key = HiddenField(_('Stripe publishable key'),
                              [DataRequired(), Length(1, 254)])
-    plan = HiddenField('Plan',
+    plan = HiddenField(_('Plan'),
                        [DataRequired(), Length(1, 254)])
-    coupon_code = StringField('Do you have a coupon code?',
+    coupon_code = StringField(_('Do you have a coupon code?'),
                               [Optional(), Length(1, 128)])
-    name = StringField('Name on card',
+    name = StringField(_('Name on card'),
                        [DataRequired(), Length(1, 254)])
 
 
 class UpdateSubscriptionForm(Form):
-    coupon_code = StringField('Do you have a coupon code?',
+    coupon_code = StringField(_('Do you have a coupon code?'),
                               [Optional(), Length(1, 254)])
 
 
@@ -40,11 +41,12 @@ class CancelSubscriptionForm(Form):
 
 
 class PaymentForm(Form):
-    stripe_key = HiddenField('Stripe publishable key',
+    stripe_key = HiddenField(_('Stripe publishable key'),
                              [DataRequired(), Length(1, 254)])
-    coin_bundles = SelectField('How many coins do you want?', [DataRequired()],
+    coin_bundles = SelectField(_('How many coins do you want?'),
+                               [DataRequired()],
                                choices=choices_from_coin_bundles())
-    coupon_code = StringField('Do you have a coupon code?',
+    coupon_code = StringField(_('Do you have a coupon code?'),
                               [Optional(), Length(1, 128)])
-    name = StringField('Name on card',
+    name = StringField(_('Name on card'),
                        [DataRequired(), Length(1, 254)])
