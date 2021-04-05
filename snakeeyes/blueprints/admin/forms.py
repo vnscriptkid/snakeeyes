@@ -33,12 +33,16 @@ class BulkDeleteForm(Form):
         ('all_selected_items', 'All selected items'),
         ('all_search_results', 'All search results')
     ])
-    scope = SelectField('Privileges', [DataRequired()], choices=choices_from_dict(
-        SCOPE, prepend_blank=False))
+
+    scope = SelectField('Privileges', [DataRequired()],
+                        choices=choices_from_dict(SCOPE, prepend_blank=False))
 
 
 class UserForm(ModelForm):
     username_message = 'Letters, numbers and underscores only please.'
+
+    coins = IntegerField('Coins', [DataRequired(),
+                                   NumberRange(min=1, max=2147483647)])
 
     username = StringField(validators=[
         Unique(
@@ -51,7 +55,8 @@ class UserForm(ModelForm):
     ])
 
     role = SelectField('Privileges', [DataRequired()],
-                       choices=choices_from_dict(User.ROLE, prepend_blank=False))
+                       choices=choices_from_dict(User.ROLE,
+                                                 prepend_blank=False))
     active = BooleanField('Yes, allow this user to sign in')
 
 

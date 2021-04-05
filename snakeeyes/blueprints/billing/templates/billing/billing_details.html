@@ -5,7 +5,7 @@
 
 {% block body %}
   {{ billing.subscription_details(coupon) }}
-  {{ billing.upcoming_invoice(upcoming) }}
+  <!-- {{ billing.upcoming_invoice(upcoming) }} -->
   {{ billing.invoices(invoices) }}
 
   <a href="{{ url_for('user.settings') }}" class="margin-top btn btn-primary">
